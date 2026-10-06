@@ -40,5 +40,5 @@ jobs:
         with:
           scope: resourcegroup
           resourceGroupName: DataFactoryTest
-          template: ./ARMTemplateForFactory.json
-          parameters: ./ARMTemplateParametersForFactory.json
+          template: ./factoryondatafactory/ARMTemplateForFactory.json
+          parameters: ./factoryondatafactory/ARMTemplateParametersForFactory.json
