@@ -2,6 +2,7 @@ name: Deploy ADF to Production
 
 on:
   workflow_dispatch:  
+  
   push:
     branches:
       - adf_publish
@@ -18,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          ref: adf_publish
 
       - name: Azure Login
         uses: azure/login@v2
