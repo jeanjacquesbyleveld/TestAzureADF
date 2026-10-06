@@ -1,0 +1,23 @@
+{
+	"name": "SourceCSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LocalServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation"
+			},
+			"columnDelimiter": ",",
+			"encodingName": "UTF-8",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

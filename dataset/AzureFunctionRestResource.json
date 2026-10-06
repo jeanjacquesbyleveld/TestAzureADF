@@ -1,0 +1,13 @@
+{
+	"name": "AzureFunctionRestResource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFunctionRestService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

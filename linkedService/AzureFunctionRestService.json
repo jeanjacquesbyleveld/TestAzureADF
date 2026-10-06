@@ -1,0 +1,13 @@
+{
+	"name": "AzureFunctionRestService",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "https://datafactoryfunctionapp-hegvhpa4d4fzfbht.southafricanorth-01.azurewebsites.net/api/UploadFile?code=vaj5S-Y-NEiJDTGuoCiF3bbxhqKzhd2arWGdUkzK0DMDAzFu2c8NWg==",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

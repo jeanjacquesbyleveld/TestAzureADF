@@ -1,0 +1,15 @@
+{
+	"name": "factoryondatafactory",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "southafricanorth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ad96c8b4-afd9-4fef-849f-1e8112d8d30b",
+		"tenantId": "0fb89de5-2787-41ea-8a61-1c6435c231eb"
+	}
+}

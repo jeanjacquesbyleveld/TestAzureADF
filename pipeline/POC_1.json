@@ -1,0 +1,177 @@
+{
+	"name": "POC_1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Loop",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@equals(length(variables('FoldersToProcess')),0)",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Set Current Folder",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CurrentFolder",
+								"value": {
+									"value": "@first(variables('FoldersToProcess'))",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Remove Current Folder",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set Current Folder",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "UpdatedFoldersToProcess",
+								"value": {
+									"value": "@skip(variables('FoldersToProcess'), 1)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Update Folders To Process",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Remove Current Folder",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "FoldersToProcess",
+								"value": {
+									"value": "@variables('UpdatedFoldersToProcess')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Get Metadata",
+							"type": "GetMetadata",
+							"dependsOn": [
+								{
+									"activity": "Update Folders To Process",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"dataset": {
+									"referenceName": "SourceBinary",
+									"type": "DatasetReference"
+								},
+								"fieldList": [
+									"childItems"
+								],
+								"storeSettings": {
+									"type": "FileServerReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "SourceBinary",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "FileServerReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			}
+		],
+		"variables": {
+			"FoldersToProcess": {
+				"type": "Array",
+				"defaultValue": [
+					"/DFTest"
+				]
+			},
+			"FilesFound": {
+				"type": "Array"
+			},
+			"CurrentFolder": {
+				"type": "String"
+			},
+			"UpdatedFoldersToProcess": {
+				"type": "Array"
+			},
+			"NextIndex": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-09-16T10:09:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

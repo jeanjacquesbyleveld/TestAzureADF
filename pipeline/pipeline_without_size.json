@@ -1,0 +1,302 @@
+{
+	"name": "pipeline_without_size",
+	"properties": {
+		"activities": [
+			{
+				"name": "SourceItems",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "SourceBinary",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "FileServerReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "BinaryReadSettings"
+					}
+				}
+			},
+			{
+				"name": "SourceForEach",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "SourceItems",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('SourceItems').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "SourceList",
+								"value": {
+									"value": "@{item().name}}",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "If Condition2",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().type, 'Folder')",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Recur",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"policy": {
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "pipeline_with_size",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "DestinationForEach",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('SourceList')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@not(contains(variables('DestinationList'), item()))",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "Append variable2",
+										"type": "AppendVariable",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "MissingFiles",
+											"value": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "UploadToBlob",
+										"type": "Copy",
+										"dependsOn": [
+											{
+												"activity": "Append variable2",
+												"dependencyConditions": [
+													"Completed"
+												]
+											}
+										],
+										"policy": {
+											"timeout": "0.12:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "BinarySource",
+												"storeSettings": {
+													"type": "FileServerReadSettings",
+													"recursive": true,
+													"wildcardFolderPath": "*",
+													"wildcardFileName": {
+														"value": "@item()",
+														"type": "Expression"
+													},
+													"deleteFilesAfterCompletion": false
+												},
+												"formatSettings": {
+													"type": "BinaryReadSettings"
+												}
+											},
+											"sink": {
+												"type": "BinarySink",
+												"storeSettings": {
+													"type": "AzureBlobStorageWriteSettings"
+												}
+											},
+											"enableStaging": false
+										},
+										"inputs": [
+											{
+												"referenceName": "SourceBinary",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DestinationBinary",
+												"type": "DatasetReference"
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "DestinationItems",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "SourceForEach",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "DestinationCSV",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "DestinationItems",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('DestinationItems').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "AppendDestinationVariable",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "DestinationList",
+								"value": {
+									"value": "@{item().name}}",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"CurrentFolder": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"SourceList": {
+				"type": "Array"
+			},
+			"DestinationList": {
+				"type": "Array"
+			},
+			"MissingFiles": {
+				"type": "Array"
+			},
+			"FileBinaryValue": {
+				"type": "String"
+			},
+			"FileList": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-09-14T08:49:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

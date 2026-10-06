@@ -1,0 +1,117 @@
+{
+	"name": "Just_Copy",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "*",
+							"wildcardFileName": "*",
+							"deleteFilesAfterCompletion": false
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						}
+					},
+					"enableStaging": false,
+					"skipErrorFile": {
+						"fileMissing": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBinary",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationBinary",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Move Data",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BinarySource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"deleteFilesAfterCompletion": true
+						},
+						"formatSettings": {
+							"type": "BinaryReadSettings"
+						}
+					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "FileServerWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
+						}
+					},
+					"enableStaging": false,
+					"skipErrorFile": {
+						"fileMissing": false
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceBinary",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SourceBinary_Processed",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-09-16T10:09:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

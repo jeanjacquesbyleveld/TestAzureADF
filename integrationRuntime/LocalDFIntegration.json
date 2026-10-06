@@ -1,0 +1,6 @@
+{
+	"name": "LocalDFIntegration",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
