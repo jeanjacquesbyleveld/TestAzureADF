@@ -17,16 +17,15 @@ jobs:
     environment: Production
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout adf_publish
         uses: actions/checkout@v4
         with:
           ref: adf_publish
 
-      - name: Verify branch
+      - name: Verify Templates
         run: |
-          echo "GitHub Ref = ${{ github.ref }}"
-          git branch --show-current
           ls -la
+          find . -name "ARMTemplateForFactory.json"
 
       - name: Azure Login
         uses: azure/login@v2
