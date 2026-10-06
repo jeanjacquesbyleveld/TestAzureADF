@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "factoryondatafactory"
+		},
+		"AzureBlobLocationCloud_connectionString": {
+			"value": ""
+		},
+		"CopyFunctionLinkedService_functionKey": {
+			"value": ""
+		},
+		"LocalServer_password": {
+			"value": ""
+		},
+		"AzureFunctionRestService_properties_typeProperties_url": {
+			"value": "https://datafactoryfunctionapp-hegvhpa4d4fzfbht.southafricanorth-01.azurewebsites.net/api/UploadFile?code=vaj5S-Y-NEiJDTGuoCiF3bbxhqKzhd2arWGdUkzK0DMDAzFu2c8NWg=="
+		},
+		"CopyFunctionLinkedService_properties_typeProperties_functionAppUrl": {
+			"value": ""
+		},
+		"LocalServer_properties_typeProperties_host": {
+			"value": "C:\\DFTest"
+		},
+		"LocalServer_properties_typeProperties_userId": {
+			"value": "ENTELECT\\jeanjacques.byleveld"
+		}
+	}
+}

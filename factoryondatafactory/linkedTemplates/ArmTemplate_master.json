@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "factoryondatafactory"
+		},
+		"AzureBlobLocationCloud_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobLocationCloud'"
+		},
+		"CopyFunctionLinkedService_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'CopyFunctionLinkedService'"
+		},
+		"LocalServer_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LocalServer'"
+		},
+		"AzureFunctionRestService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datafactoryfunctionapp-hegvhpa4d4fzfbht.southafricanorth-01.azurewebsites.net/api/UploadFile?code=vaj5S-Y-NEiJDTGuoCiF3bbxhqKzhd2arWGdUkzK0DMDAzFu2c8NWg=="
+		},
+		"CopyFunctionLinkedService_properties_typeProperties_functionAppUrl": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"LocalServer_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\DFTest"
+		},
+		"LocalServer_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "ENTELECT\\jeanjacques.byleveld"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "factoryondatafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobLocationCloud_connectionString": {
+						"value": "[parameters('AzureBlobLocationCloud_connectionString')]"
+					},
+					"CopyFunctionLinkedService_functionKey": {
+						"value": "[parameters('CopyFunctionLinkedService_functionKey')]"
+					},
+					"LocalServer_password": {
+						"value": "[parameters('LocalServer_password')]"
+					},
+					"AzureFunctionRestService_properties_typeProperties_url": {
+						"value": "[parameters('AzureFunctionRestService_properties_typeProperties_url')]"
+					},
+					"CopyFunctionLinkedService_properties_typeProperties_functionAppUrl": {
+						"value": "[parameters('CopyFunctionLinkedService_properties_typeProperties_functionAppUrl')]"
+					},
+					"LocalServer_properties_typeProperties_host": {
+						"value": "[parameters('LocalServer_properties_typeProperties_host')]"
+					},
+					"LocalServer_properties_typeProperties_userId": {
+						"value": "[parameters('LocalServer_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
