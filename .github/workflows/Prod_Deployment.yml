@@ -22,6 +22,12 @@ jobs:
         with:
           ref: adf_publish
 
+      - name: Verify branch
+        run: |
+          echo "GitHub Ref = ${{ github.ref }}"
+          git branch --show-current
+          ls -la
+
       - name: Azure Login
         uses: azure/login@v2
         with:
