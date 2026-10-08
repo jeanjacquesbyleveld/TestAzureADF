@@ -39,6 +39,6 @@ jobs:
         uses: azure/arm-deploy@v2
         with:
           scope: resourcegroup
-          resourceGroupName: DataFactoryTest
+          resourceGroupName: rg_testdeploymenttoprod
           template: ./factoryondatafactory/ARMTemplateForFactory.json
           parameters: ./factoryondatafactory/ARMTemplateParametersForFactory.json
