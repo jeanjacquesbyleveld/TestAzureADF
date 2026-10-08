@@ -50,4 +50,4 @@ jobs:
           scope: resourcegroup
           resourceGroupName: rg_testdeploymenttoprod
           template: ./factoryondatafactory/ARMTemplateForFactory.json
-          parameters: "@main/deployment/prod.parameters.json"
+          parameters: ./main/deployment/prod.parameters.json
