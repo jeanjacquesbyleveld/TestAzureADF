@@ -1,0 +1,6 @@
+{
+	"name": "Test deploy pipeline",
+	"properties": {
+		"annotations": []
+	}
+}
