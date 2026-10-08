@@ -26,6 +26,15 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: main
+      
+      - name: Verify Files
+        run: |
+          ls -R
+          ls -la main/deployment
+
+      - name: Show Parameter File
+        run: |
+          cat main/deployment/prod.parameters.json
 
       - name: Azure Login
         uses: azure/login@v2
