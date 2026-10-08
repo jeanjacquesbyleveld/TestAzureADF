@@ -1,9 +1,30 @@
 {
-	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-	"contentVersion": "1.0.0.0",
-	"parameters": {
-		"factoryName": {
-			"value": "prodfactorydatafactory"
-		}
-	}
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "factoryName": {
+      "value": "prodfactorydatafactory"
+    },
+    "AzureBlobLocationCloud_connectionString": {
+      "value": ""
+    },
+    "CopyFunctionLinkedService_functionKey": {
+      "value": ""
+    },
+    "LocalServer_password": {
+      "value": ""
+    },
+    "AzureFunctionRestService_properties_typeProperties_url": {
+      "value": "..."
+    },
+    "CopyFunctionLinkedService_properties_typeProperties_functionAppUrl": {
+      "value": ""
+    },
+    "LocalServer_properties_typeProperties_host": {
+      "value": "C:\\DFTest"
+    },
+    "LocalServer_properties_typeProperties_userId": {
+      "value": "ENTELECT\\jeanjacques.byleveld"
+    }
+  }
 }
