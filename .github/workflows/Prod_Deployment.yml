@@ -27,11 +27,6 @@ jobs:
         with:
           path: main
 
-      - name: Verify Templates
-        run: |
-          ls -la
-          find . -name "ARMTemplateForFactory.json"
-
       - name: Azure Login
         uses: azure/login@v2
         with:
