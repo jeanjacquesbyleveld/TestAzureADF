@@ -22,6 +22,11 @@ jobs:
         with:
           ref: adf_publish
 
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          path: main
+
       - name: Verify Templates
         run: |
           ls -la
@@ -47,4 +52,4 @@ jobs:
           scope: resourcegroup
           resourceGroupName: rg_testdeploymenttoprod
           template: ./factoryondatafactory/ARMTemplateForFactory.json
-          parameters: ./deployment/prod.parameters.json
+          parameters: main/deployment/prod.parameters.json
